@@ -9,10 +9,14 @@ import {
   TableCell,
   Paper,
   Typography,
+  TablePagination,
 } from "@mui/material";
+import Highlighter from "react-highlight-words";
 
 export default function DashboardTable({ products, stock }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const stockSummary = products.map((product) => {
     const totalQty = stock
@@ -28,41 +32,81 @@ export default function DashboardTable({ products, stock }) {
       p.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
-    <TableContainer component={Paper} sx={{ mt: 4, overflowX: "auto", p: 2 }}>
-      <Typography variant="h6" gutterBottom>
-        Product Stock Summary
-      </Typography>
+  const displayedRows = filtered.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  return (
+    <>
       <TextField
         label="Search Products..."
         variant="outlined"
         fullWidth
-        sx={{ mb: 2 }}
+        sx={{ mt: 2 }}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Product Name</TableCell>
-            <TableCell>SKU</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell align="right">Total Quantity</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filtered.map((p) => (
-            <TableRow key={p.id} hover>
-              <TableCell>{p.name}</TableCell>
-              <TableCell>{p.sku}</TableCell>
-              <TableCell>{p.category}</TableCell>
-              <TableCell align="right">{p.totalQty}</TableCell>
+      <TableContainer component={Paper} sx={{ mt: 2, overflowX: "auto", p: 2 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Product Name</TableCell>
+              <TableCell>SKU</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell align="right">Total Quantity</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {displayedRows.map((p) => (
+              <TableRow key={p.id} hover>
+                <TableCell>
+                  <Highlighter
+                    searchWords={[searchTerm]}
+                    autoEscape={true}
+                    textToHighlight={p.name}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Highlighter
+                    searchWords={[searchTerm]}
+                    autoEscape={true}
+                    textToHighlight={p.sku}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Highlighter
+                    searchWords={[searchTerm]}
+                    autoEscape={true}
+                    textToHighlight={p.category}
+                  />
+                </TableCell>
+                <TableCell align="right">{p.totalQty}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <TablePagination
+        component="div"
+        count={filtered.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
+    </>
   );
 }

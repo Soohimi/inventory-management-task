@@ -12,39 +12,36 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const [pRes, wRes, sRes] = await Promise.all([
+        const [prodRes, wareRes, stockRes] = await Promise.all([
           fetch("/api/products").then((r) => r.json()),
           fetch("/api/warehouses").then((r) => r.json()),
           fetch("/api/stock").then((r) => r.json()),
         ]);
-        setProducts(pRes);
-        setWarehouses(wRes);
-        setStock(sRes);
+        setProducts(prodRes);
+        setWarehouses(wareRes);
+        setStock(stockRes);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchData();
   }, []);
 
   if (loading)
     return (
-      <Container sx={{ textAlign: "center", mt: 10 }}>
+      <Container sx={{ textAlign: "center", mt: 5 }}>
         <CircularProgress />
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Loading dashboard...
-        </Typography>
       </Container>
     );
 
   return (
     <Container sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
-        📊 Inventory Dashboard
+        GreenSupply Dashboard
       </Typography>
 
       <DashboardOverview
@@ -52,11 +49,8 @@ export default function Dashboard() {
         warehouses={warehouses}
         stock={stock}
       />
-
       <WarehouseBarChart warehouses={warehouses} stock={stock} />
-
       <LowStockList products={products} stock={stock} />
-
       <DashboardTable products={products} stock={stock} />
     </Container>
   );
