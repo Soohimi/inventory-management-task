@@ -145,20 +145,20 @@ export default function TransfersPage() {
   if (loading) {
     return (
       <Container sx={{ textAlign: "center", mt: 5 }}>
-        <CircularProgress />
+        <CircularProgress color="inherit" />
       </Container>
     );
   }
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ color: "#fff" }}>
         Stock Transfers
       </Typography>
 
-      <Card sx={{ mb: 4, p: 2, bg: "bg-black-500" }}>
+      <Card sx={{ mb: 4, p: 2, backgroundColor: "#1e1e1e", color: "#fff" }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ color: "#fff" }}>
             Initiate New Transfer
           </Typography>
 
@@ -172,6 +172,14 @@ export default function TransfersPage() {
                   value={form.productId}
                   onChange={handleChange}
                   fullWidth
+                  InputLabelProps={{ style: { color: "#ccc" } }}
+                  InputProps={{
+                    style: {
+                      color: "#fff",
+                      backgroundColor: "#2a2a2a",
+                      borderRadius: 4,
+                    },
+                  }}
                 >
                   {products.map((p) => (
                     <MenuItem key={p.id} value={p.id}>
@@ -189,6 +197,14 @@ export default function TransfersPage() {
                   value={form.fromWarehouseId}
                   onChange={handleChange}
                   fullWidth
+                  InputLabelProps={{ style: { color: "#ccc" } }}
+                  InputProps={{
+                    style: {
+                      color: "#fff",
+                      backgroundColor: "#2a2a2a",
+                      borderRadius: 4,
+                    },
+                  }}
                 >
                   {warehouses.map((w) => (
                     <MenuItem key={w.id} value={w.id}>
@@ -206,6 +222,14 @@ export default function TransfersPage() {
                   value={form.toWarehouseId}
                   onChange={handleChange}
                   fullWidth
+                  InputLabelProps={{ style: { color: "#ccc" } }}
+                  InputProps={{
+                    style: {
+                      color: "#fff",
+                      backgroundColor: "#2a2a2a",
+                      borderRadius: 4,
+                    },
+                  }}
                 >
                   {warehouses.map((w) => (
                     <MenuItem key={w.id} value={w.id}>
@@ -223,6 +247,14 @@ export default function TransfersPage() {
                   value={form.quantity}
                   onChange={handleChange}
                   fullWidth
+                  InputLabelProps={{ style: { color: "#ccc" } }}
+                  InputProps={{
+                    style: {
+                      color: "#fff",
+                      backgroundColor: "#2a2a2a",
+                      borderRadius: 4,
+                    },
+                  }}
                 />
               </Grid>
 
@@ -235,7 +267,13 @@ export default function TransfersPage() {
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
+                  sx={{
+                    p: 1.8,
+                    fontSize: "0.8rem",
+                    backgroundColor: "#4a90e2",
+                    color: "#fff",
+                    "&:hover": { backgroundColor: "#357ABD" },
+                  }}
                   fullWidth
                 >
                   Transfer
@@ -246,40 +284,55 @@ export default function TransfersPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card sx={{ backgroundColor: "#1e1e1e", color: "#fff" }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ color: "#fff" }}>
             Transfer History
           </Typography>
 
-          <TableContainer component={Paper}>
+          <TableContainer
+            component={Paper}
+            sx={{ backgroundColor: "#2a2a2a", borderRadius: 2 }}
+          >
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell>Product</TableCell>
-                  <TableCell>From</TableCell>
-                  <TableCell>To</TableCell>
-                  <TableCell align="right">Quantity</TableCell>
-                  <TableCell align="right">Date</TableCell>
+                <TableRow sx={{ backgroundColor: "#3a3a3a" }}>
+                  <TableCell sx={{ color: "#ccc" }}>Product</TableCell>
+                  <TableCell sx={{ color: "#ccc" }}>From</TableCell>
+                  <TableCell sx={{ color: "#ccc" }}>To</TableCell>
+                  <TableCell sx={{ color: "#ccc" }} align="right">
+                    Quantity
+                  </TableCell>
+                  <TableCell sx={{ color: "#ccc" }} align="right">
+                    Date
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {transfers.map((t) => (
-                  <TableRow key={t.id}>
-                    <TableCell>
+                  <TableRow
+                    key={t.id}
+                    sx={{
+                      "&:hover": { backgroundColor: "#333" },
+                      transition: "0.3s ease",
+                    }}
+                  >
+                    <TableCell sx={{ color: "#fff" }}>
                       {products.find((p) => p.id === t.productId)?.name ||
                         t.productId}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ color: "#fff" }}>
                       {warehouses.find((w) => w.id === t.fromWarehouseId)
                         ?.name || t.fromWarehouseId}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ color: "#fff" }}>
                       {warehouses.find((w) => w.id === t.toWarehouseId)?.name ||
                         t.toWarehouseId}
                     </TableCell>
-                    <TableCell align="right">{t.quantity}</TableCell>
-                    <TableCell align="right">
+                    <TableCell sx={{ color: "#fff" }} align="right">
+                      {t.quantity}
+                    </TableCell>
+                    <TableCell sx={{ color: "#fff" }} align="right">
                       {t.date ? new Date(t.date).toLocaleString() : "-"}
                     </TableCell>
                   </TableRow>
@@ -295,7 +348,10 @@ export default function TransfersPage() {
         autoHideDuration={3000}
         onClose={() => setMessage({ ...message, open: false })}
       >
-        <Alert severity={message.severity} sx={{ width: "100%" }}>
+        <Alert
+          severity={message.severity}
+          sx={{ width: "100%", backgroundColor: "#2a2a2a", color: "#fff" }}
+        >
           {message.text}
         </Alert>
       </Snackbar>

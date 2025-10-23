@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Container,
   Typography,
@@ -18,9 +18,11 @@ import {
   DialogContentText,
   DialogTitle,
   Box,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+  TextField,
+  MenuItem,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -32,7 +34,7 @@ export default function Products() {
   }, []);
 
   const fetchProducts = () => {
-    fetch('/api/products')
+    fetch("/api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   };
@@ -50,132 +52,156 @@ export default function Products() {
   const handleDelete = async () => {
     try {
       const res = await fetch(`/api/products/${selectedProductId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
-        setProducts(products.filter((product) => product.id !== selectedProductId));
+        setProducts(
+          products.filter((product) => product.id !== selectedProductId)
+        );
         handleClose();
       }
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error("Error deleting product:", error);
     }
   };
 
   return (
-    <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h5" component="h1" sx={{ color: "#fff", fontWeight: 500 }}>
-            Products
-          </Typography>
-          <Button 
-            variant="contained" 
-            component={Link} 
-            href="/products/add"
-            sx={{
-              backgroundColor: "#2a2a2a",
-              color: "#fff",
-              ":hover": { backgroundColor: "#3a3a3a" },
-            }}
-          >
-            Add Product
-          </Button>
-        </Box>
-
-        <TableContainer 
-          component={Paper}
+    <Container sx={{ mt: 4, mb: 8 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Typography variant="h5" sx={{ color: "#fff", fontWeight: 500 }}>
+          Products
+        </Typography>
+        <Button
+          variant="contained"
+          component={Link}
+          href="/products/add"
           sx={{
-            borderRadius: 2,
-            backgroundColor: "#1a1a1a",
-            border: "1px solid #2a2a2a",
+            backgroundColor: "#4a90e2",
+            color: "#fff",
+            ":hover": { backgroundColor: "#357ABD" },
           }}
         >
-          <Table>
-            <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
-              <TableRow>
-                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>SKU</TableCell>
-                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>Name</TableCell>
-                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>Category</TableCell>
-                <TableCell align="right" sx={{ color: "#fff", fontWeight: 600 }}>Unit Cost</TableCell>
-                <TableCell align="right" sx={{ color: "#fff", fontWeight: 600 }}>Reorder Point</TableCell>
-                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow 
-                  key={product.id}
-                  hover
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#2a2a2a",
-                    },
-                    backgroundColor: "#1a1a1a",
-                  }}
-                >
-                  <TableCell sx={{ color: "#ccc" }}>{product.sku}</TableCell>
-                  <TableCell sx={{ color: "#ccc" }}>{product.name}</TableCell>
-                  <TableCell sx={{ color: "#ccc" }}>{product.category}</TableCell>
-                  <TableCell align="right" sx={{ color: "#ccc" }}>${product.unitCost.toFixed(2)}</TableCell>
-                  <TableCell align="right" sx={{ color: "#ccc" }}>{product.reorderPoint}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      color="primary"
-                      component={Link}
-                      href={`/products/edit/${product.id}`}
-                      size="small"
-                      sx={{ color: "#4fc3f7" }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      onClick={() => handleClickOpen(product.id)}
-                      size="small"
-                      sx={{ color: "#f44336" }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {products.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} align="center" sx={{ py: 3, color: "#ccc" }}>
-                    No products available.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+          Add Product
+        </Button>
+      </Box>
 
-        <Dialog 
-          open={open} 
-          onClose={handleClose}
-          PaperProps={{
-            sx: {
-              backgroundColor: "#1a1a1a",
-              border: "1px solid #2a2a2a",
-            }
-          }}
-        >
-          <DialogTitle sx={{ color: "#fff" }}>Delete Product</DialogTitle>
-          <DialogContent>
-            <DialogContentText sx={{ color: "#ccc" }}>
-              Are you sure you want to delete this product? This action cannot be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} sx={{ color: "#ccc" }}>
-              Cancel
-            </Button>
-            <Button onClick={handleDelete} sx={{ color: "#f44336" }} autoFocus>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-    </Box>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 2,
+          backgroundColor: "#1e1e1e",
+          border: "1px solid #2a2a2a",
+        }}
+      >
+        <Table>
+          <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
+            <TableRow>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>SKU</TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Category
+              </TableCell>
+              <TableCell align="right" sx={{ color: "#fff", fontWeight: 600 }}>
+                Unit Cost
+              </TableCell>
+              <TableCell align="right" sx={{ color: "#fff", fontWeight: 600 }}>
+                Reorder Point
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products.map((product) => (
+              <TableRow
+                key={product.id}
+                hover
+                sx={{
+                  "&:hover": { backgroundColor: "#333" },
+                  backgroundColor: "#1e1e1e",
+                }}
+              >
+                <TableCell sx={{ color: "#ccc" }}>{product.sku}</TableCell>
+                <TableCell sx={{ color: "#ccc" }}>{product.name}</TableCell>
+                <TableCell sx={{ color: "#ccc" }}>{product.category}</TableCell>
+                <TableCell align="right" sx={{ color: "#ccc" }}>
+                  ${product.unitCost.toFixed(2)}
+                </TableCell>
+                <TableCell align="right" sx={{ color: "#ccc" }}>
+                  {product.reorderPoint}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    component={Link}
+                    href={`/products/edit/${product.id}`}
+                    size="small"
+                    sx={{ color: "#4fc3f7" }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleClickOpen(product.id)}
+                    size="small"
+                    sx={{ color: "#f44336" }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+            {products.length === 0 && (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  align="center"
+                  sx={{ py: 3, color: "#ccc" }}
+                >
+                  No products available.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1e1e1e",
+            border: "1px solid #2a2a2a",
+            color: "#fff",
+          },
+        }}
+      >
+        <DialogTitle sx={{ color: "#fff" }}>Delete Product</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: "#ccc" }}>
+            Are you sure you want to delete this product? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} sx={{ color: "#ccc" }}>
+            Cancel
+          </Button>
+          <Button onClick={handleDelete} sx={{ color: "#f44336" }} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 }
-

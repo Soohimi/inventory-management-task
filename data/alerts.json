@@ -71,57 +71,67 @@
     "resolved": true
   },
   {
-    "id": 1761236159055.3699,
+    "id": 1761257280685.3076,
     "type": "total",
     "productId": 1,
     "productName": "Bamboo Spork Set",
     "status": "low",
     "message": "Total stock for Bamboo Spork Set is low (51 units left).",
-    "date": "2025-10-23T16:15:59.055Z",
+    "date": "2025-10-23T22:08:00.685Z",
+    "resolved": true
+  },
+  {
+    "id": 1761260725228.7402,
+    "type": "total",
+    "productId": 1,
+    "productName": "Bamboo Spork Set",
+    "status": "low",
+    "message": "Total stock for Bamboo Spork Set is low (51 units left).",
+    "date": "2025-10-23T23:05:25.228Z",
     "resolved": false
   },
   {
-    "id": 1761236159055.7717,
+    "id": 1761260725228.6877,
     "type": "warehouse",
     "productId": 1,
     "productName": "Bamboo Spork Set",
     "warehouseId": 1,
     "status": "low",
     "message": "Stock for Bamboo Spork Set in warehouse 1 is low (1 units left).",
-    "date": "2025-10-23T16:15:59.055Z",
+    "date": "2025-10-23T23:05:25.228Z",
     "resolved": false
   },
   {
-    "id": 1761236159055.3303,
+    "id": 1761260725228.3083,
     "type": "warehouse",
     "productId": 1,
     "productName": "Bamboo Spork Set",
     "warehouseId": 2,
     "status": "low",
     "message": "Stock for Bamboo Spork Set in warehouse 2 is low (50 units left).",
-    "date": "2025-10-23T16:15:59.055Z",
+    "date": "2025-10-23T23:05:25.228Z",
     "resolved": false
   },
   {
-    "id": 1761236159055.6934,
+    "id": 1761260725228.0059,
     "type": "warehouse",
     "productId": 4,
     "productName": "Recyclable Paper Bowl",
     "warehouseId": 2,
     "status": "low",
     "message": "Stock for Recyclable Paper Bowl in warehouse 2 is low (600 units left).",
-    "date": "2025-10-23T16:15:59.055Z",
+    "date": "2025-10-23T23:05:25.228Z",
     "resolved": false
   },
   {
-    "id": 1761236159055.3657,
+    "id": 1761260725228.5908,
     "type": "warehouse",
     "productId": 5,
     "productName": "Biodegradable Coffee Cup 12oz",
     "warehouseId": 2,
     "status": "low",
     "message": "Stock for Biodegradable Coffee Cup 12oz in warehouse 2 is low (450 units left).",
-    "date": "2025-10-23T16:15:59.055Z",
+    "date": "2025-10-23T23:05:25.228Z",
     "resolved": false
   }
 ]
