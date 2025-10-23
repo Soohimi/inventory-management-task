@@ -6,13 +6,14 @@ import DashboardOverview from "@/components/dashboard/DashboardOverview";
 import WarehouseBarChart from "@/components/dashboard/WarehouseBarChart";
 import DashboardTable from "@/components/dashboard/DashboardTable";
 import LowStockAlerts from "@/components/dashboard/LowStockAlerts";
+import { Product, Warehouse, StockItem, AlertItem } from "@/types";
 
 export default function Dashboard() {
-  const [products, setProducts] = useState([]);
-  const [warehouses, setWarehouses] = useState([]);
-  const [stock, setStock] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [stock, setStock] = useState<StockItem[]>([]);
+  const [alerts, setAlerts] = useState<AlertItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {

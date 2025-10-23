@@ -21,11 +21,12 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { Product } from '@/types';
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -37,7 +38,7 @@ export default function Products() {
       .then((data) => setProducts(data));
   };
 
-  const handleClickOpen = (id) => {
+  const handleClickOpen = (id: number) => {
     setSelectedProductId(id);
     setOpen(true);
   };

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import {
   AppBar,
   Toolbar,
@@ -28,11 +28,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
-export default function Layout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const navItems = [
     { label: "Dashboard", path: "/", icon: <DashboardIcon /> },
@@ -93,6 +97,7 @@ export default function Layout({ children }) {
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
 
+      {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
@@ -121,13 +126,12 @@ export default function Layout({ children }) {
         </Toolbar>
       </AppBar>
 
+      {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
+        ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", md: "none" },
           "& .MuiDrawer-paper": {
@@ -141,6 +145,7 @@ export default function Layout({ children }) {
         {drawer}
       </Drawer>
 
+      {/* Desktop Drawer */}
       <Box
         component="nav"
         sx={{
@@ -166,6 +171,7 @@ export default function Layout({ children }) {
         </Drawer>
       </Box>
 
+      {/* Main Content */}
       <Box
         component="main"
         sx={{

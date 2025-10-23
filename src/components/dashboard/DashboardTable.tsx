@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import {
   TextField,
@@ -8,28 +10,50 @@ import {
   TableRow,
   TableCell,
   Paper,
-  Typography,
   TablePagination,
 } from "@mui/material";
 import Highlighter from "react-highlight-words";
+import { Product, StockItem } from "@/types";
 
-export default function DashboardTable({ products, stock }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+interface DashboardTableProps {
+  products: Product[];
+  stock: StockItem[];
+}
 
-  const stockSummary = products.map((product) => {
+interface ProductWithTotalQty extends Product {
+  sku?: string;
+  category?: string;
+  totalQty: number;
+}
+
+export default function DashboardTable({
+  products,
+  stock,
+}: DashboardTableProps) {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+
+  // Combine stock and product info
+  const stockSummary: ProductWithTotalQty[] = products.map((product) => {
     const totalQty = stock
       .filter((s) => s.productId === product.id)
       .reduce((sum, s) => sum + s.quantity, 0);
-    return { ...product, totalQty };
+
+    return {
+      ...product,
+      sku: (product as any).sku || "-",
+      category: (product as any).category || "-",
+      totalQty,
+    };
   });
 
+  // Filter based on search
   const filtered = stockSummary.filter(
     (p) =>
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchTerm.toLowerCase())
+      (p.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+      (p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
   );
 
   const displayedRows = filtered.slice(
@@ -37,9 +61,13 @@ export default function DashboardTable({ products, stock }) {
     page * rowsPerPage + rowsPerPage
   );
 
-  const handleChangePage = (_, newPage) => setPage(newPage);
-  const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
+  const handleChangePage = (_event: unknown, newPage: number) =>
+    setPage(newPage);
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
@@ -95,7 +123,7 @@ export default function DashboardTable({ products, stock }) {
                 <TableCell sx={{ color: "#fff" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
-                    autoEscape={true}
+                    autoEscape
                     textToHighlight={p.name}
                     highlightStyle={{
                       backgroundColor: "#4a90e2",
@@ -106,8 +134,8 @@ export default function DashboardTable({ products, stock }) {
                 <TableCell sx={{ color: "#bbb" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
-                    autoEscape={true}
-                    textToHighlight={p.sku}
+                    autoEscape
+                    textToHighlight={p.sku || "-"}
                     highlightStyle={{
                       backgroundColor: "#4a90e2",
                       color: "#fff",
@@ -117,8 +145,8 @@ export default function DashboardTable({ products, stock }) {
                 <TableCell sx={{ color: "#bbb" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
-                    autoEscape={true}
-                    textToHighlight={p.category}
+                    autoEscape
+                    textToHighlight={p.category || "-"}
                     highlightStyle={{
                       backgroundColor: "#4a90e2",
                       color: "#fff",

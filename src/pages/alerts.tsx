@@ -15,18 +15,27 @@ import {
   Chip,
 } from "@mui/material";
 
+interface AlertItem {
+  id: number | string;
+  productId: number | string;
+  status: "critical" | "low" | "ok";
+  message: string;
+  date: string;
+  resolved: boolean;
+}
+
 export default function AlertsPage() {
-  const [alerts, setAlerts] = useState([]);
+  const [alerts, setAlerts] = useState<AlertItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchAlerts = async () => {
     const res = await fetch("/api/alerts");
-    const data = await res.json();
+    const data: AlertItem[] = await res.json();
     setAlerts(data);
     setLoading(false);
   };
 
-  const handleResolve = async (id) => {
+  const handleResolve = async (id: number | string) => {
     await fetch("/api/alerts", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

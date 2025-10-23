@@ -6,9 +6,20 @@ import {
   ListItem,
   Chip,
 } from "@mui/material";
+import { Product, StockItem } from "@/types";
 
-export default function LowStockList({ products, stock }) {
-  const lowStockItems = products
+interface LowStockListProps {
+  products: Product[];
+  stock: StockItem[];
+}
+
+interface ProductWithStatus extends Product {
+  totalQty: number;
+  status: "critical" | "low" | "ok";
+}
+
+export default function LowStockList({ products, stock }: LowStockListProps) {
+  const lowStockItems: ProductWithStatus[] = products
     .map((p) => {
       const totalQty = stock
         .filter((s) => s.productId === p.id)
@@ -16,12 +27,13 @@ export default function LowStockList({ products, stock }) {
       return {
         ...p,
         totalQty,
-        status:
+        status: (
           totalQty < p.reorderPoint
             ? totalQty < p.reorderPoint / 2
               ? "critical"
               : "low"
-            : "ok",
+            : "ok"
+        ) as "critical" | "low" | "ok",
       };
     })
     .filter((i) => i.status !== "ok");

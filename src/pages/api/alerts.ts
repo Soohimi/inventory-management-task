@@ -1,18 +1,20 @@
 import fs from "fs";
 import path from "path";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { AlertItem } from '@/types';
 
 const alertsFilePath = path.join(process.cwd(), "data", "alerts.json");
 
-function readAlerts() {
+function readAlerts(): AlertItem[] {
   const data = fs.readFileSync(alertsFilePath, "utf-8");
   return JSON.parse(data || "[]");
 }
 
-function writeAlerts(data) {
+function writeAlerts(data: AlertItem[]): void {
   fs.writeFileSync(alertsFilePath, JSON.stringify(data, null, 2));
 }
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === "GET") {
       const alerts = readAlerts();
@@ -27,7 +29,7 @@ export default function handler(req, res) {
       }
 
       const alerts = readAlerts();
-      const newAlert = {
+      const newAlert: AlertItem = {
         id: Date.now(),
         productId,
         status,

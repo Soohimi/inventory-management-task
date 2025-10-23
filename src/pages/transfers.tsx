@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ChangeEvent, FormEvent } from "react";
 import {
   Container,
   Typography,
@@ -22,24 +22,58 @@ import {
   Alert,
 } from "@mui/material";
 
+interface Product {
+  id: number;
+  name: string;
+}
+
+interface Warehouse {
+  id: number;
+  name: string;
+}
+
+interface Transfer {
+  message: string;
+  id: number;
+  productId: number;
+  fromWarehouseId: number;
+  toWarehouseId: number;
+  quantity: number;
+  date?: string;
+}
+
+interface FormState {
+  productId: string;
+  fromWarehouseId: string;
+  toWarehouseId: string;
+  quantity: string;
+}
+
+interface MessageState {
+  open: boolean;
+  text: string;
+  severity: "success" | "error" | "info" | "warning";
+}
+
 export default function TransfersPage() {
-  const [products, setProducts] = useState([]);
-  const [warehouses, setWarehouses] = useState([]);
-  const [transfers, setTransfers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({
+  const [products, setProducts] = useState<Product[]>([]);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [transfers, setTransfers] = useState<Transfer[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [form, setForm] = useState<FormState>({
     productId: "",
     fromWarehouseId: "",
     toWarehouseId: "",
     quantity: "",
   });
-  const [message, setMessage] = useState({
+  const [message, setMessage] = useState<MessageState>({
     open: false,
     text: "",
     severity: "success",
   });
 
-  const bcRef = useRef(null);
+  const bcRef = useRef<BroadcastChannel | null>(null);
+
   useEffect(() => {
     if (typeof window !== "undefined" && "BroadcastChannel" in window) {
       bcRef.current = new BroadcastChannel("inventory_channel");
@@ -69,11 +103,13 @@ export default function TransfersPage() {
     fetchData();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (
@@ -89,6 +125,7 @@ export default function TransfersPage() {
       });
       return;
     }
+
     if (Number(form.fromWarehouseId) === Number(form.toWarehouseId)) {
       setMessage({
         open: true,
@@ -105,7 +142,7 @@ export default function TransfersPage() {
         body: JSON.stringify({ ...form, quantity: Number(form.quantity) }),
       });
 
-      const payload = await res.json();
+      const payload: Transfer = await res.json();
       if (!res.ok) throw new Error(payload?.message || "Transfer failed");
 
       setTransfers((prev) => [...prev, payload]);
@@ -125,14 +162,13 @@ export default function TransfersPage() {
         text: "Transfer created successfully",
         severity: "success",
       });
-
       setForm({
         productId: "",
         fromWarehouseId: "",
         toWarehouseId: "",
         quantity: "",
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setMessage({
         open: true,

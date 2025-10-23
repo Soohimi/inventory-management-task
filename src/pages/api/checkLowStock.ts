@@ -1,27 +1,29 @@
 import fs from "fs";
 import path from "path";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Product, StockItem, AlertItem } from '@/types';
 
 const productsPath = path.join(process.cwd(), "data", "products.json");
 const stockPath = path.join(process.cwd(), "data", "stock.json");
 const alertsPath = path.join(process.cwd(), "data", "alerts.json");
 
-const readJson = (filePath) => JSON.parse(fs.readFileSync(filePath, "utf-8"));
-const writeJson = (filePath, data) =>
+const readJson = <T>(filePath: string): T => JSON.parse(fs.readFileSync(filePath, "utf-8"));
+const writeJson = <T>(filePath: string, data: T): void =>
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const products = readJson(productsPath);
-    const stock = readJson(stockPath);
-    let alerts = readJson(alertsPath);
+    const products = readJson<Product[]>(productsPath);
+    const stock = readJson<StockItem[]>(stockPath);
+    let alerts = readJson<AlertItem[]>(alertsPath);
 
     alerts = alerts.filter((a) => a.resolved);
 
-    const newAlerts = [];
+    const newAlerts: AlertItem[] = [];
 
     products.forEach((product) => {
       const productStock = stock.filter((s) => s.productId === product.id);
@@ -30,9 +32,8 @@ export default function handler(req, res) {
 
       if (totalStock < reorderPoint) {
         const status = totalStock === 0 ? "critical" : "low";
-        const alert = {
+        const alert: AlertItem = {
           id: Date.now() + Math.random(),
-          type: "total",
           productId: product.id,
           productName: product.name,
           status,
@@ -47,12 +48,10 @@ export default function handler(req, res) {
       productStock.forEach((s) => {
         if (s.quantity < reorderPoint) {
           const status = s.quantity === 0 ? "critical" : "low";
-          const alert = {
+          const alert: AlertItem = {
             id: Date.now() + Math.random(),
-            type: "warehouse",
             productId: product.id,
             productName: product.name,
-            warehouseId: s.warehouseId,
             status,
             message: `Stock for ${product.name} in warehouse ${s.warehouseId} is low (${s.quantity} units left).`,
             date: new Date().toISOString(),

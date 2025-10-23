@@ -8,9 +8,20 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import { Warehouse, StockItem } from "@/types";
 
-export default function WarehouseBarChart({ warehouses, stock }) {
-  const data = warehouses.map((w) => {
+interface WarehouseBarChartProps {
+  warehouses: Warehouse[];
+  stock: StockItem[];
+}
+
+interface ChartData {
+  name: string;
+  totalQty: number;
+}
+
+export default function WarehouseBarChart({ warehouses, stock }: WarehouseBarChartProps) {
+  const data: ChartData[] = warehouses.map((w) => {
     const totalQty = stock
       .filter((s) => s.warehouseId === w.id)
       .reduce((sum, s) => sum + s.quantity, 0);
@@ -40,7 +51,7 @@ export default function WarehouseBarChart({ warehouses, stock }) {
                   color: "#fff",
                 }}
                 labelStyle={{ fontWeight: "bold", color: "#fff" }}
-                formatter={(value, name, props) => {
+                formatter={(value: number, name: string, props: any) => {
                   const { payload } = props;
                   return [`${value} items`, `Warehouse: ${payload.name}`];
                 }}

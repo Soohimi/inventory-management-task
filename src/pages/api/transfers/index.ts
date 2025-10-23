@@ -1,22 +1,24 @@
 import fs from "fs";
 import path from "path";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Transfer, StockItem, Product, Warehouse } from '@/types';
 
 const transfersFile = path.join(process.cwd(), "data", "transfers.json");
 const stockFile = path.join(process.cwd(), "data", "stock.json");
 const productsFile = path.join(process.cwd(), "data", "products.json");
 const warehousesFile = path.join(process.cwd(), "data", "warehouses.json");
 
-function readJson(file) {
+function readJson<T>(file: string): T {
   return JSON.parse(fs.readFileSync(file, "utf-8"));
 }
 
-function writeJson(file, data) {
+function writeJson<T>(file: string, data: T): void {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const transfers = readJson(transfersFile);
+    const transfers = readJson<Transfer[]>(transfersFile);
     return res.status(200).json(transfers);
   }
 
@@ -47,8 +49,8 @@ export default async function handler(req, res) {
         .json({ message: "Source and destination must differ" });
     }
 
-    const products = readJson(productsFile);
-    const warehouses = readJson(warehousesFile);
+    const products = readJson<Product[]>(productsFile);
+    const warehouses = readJson<Warehouse[]>(warehousesFile);
     if (!products.find((p) => p.id === productId)) {
       return res.status(400).json({ message: "Product not found" });
     }
@@ -61,7 +63,7 @@ export default async function handler(req, res) {
         .json({ message: "Destination warehouse not found" });
     }
 
-    const stockData = readJson(stockFile);
+    const stockData = readJson<StockItem[]>(stockFile);
 
     const fromIndex = stockData.findIndex(
       (s) => s.productId === productId && s.warehouseId === fromWarehouseId
@@ -95,11 +97,11 @@ export default async function handler(req, res) {
 
     writeJson(stockFile, stockData);
 
-    const transfers = readJson(transfersFile);
+    const transfers = readJson<Transfer[]>(transfersFile);
     const newId = transfers.length
       ? Math.max(...transfers.map((t) => t.id)) + 1
       : 1;
-    const newTransfer = {
+    const newTransfer: Transfer = {
       id: newId,
       productId,
       fromWarehouseId,
