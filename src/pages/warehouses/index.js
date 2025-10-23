@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
-  Container,
+  Box,
   Typography,
   Button,
   Table,
@@ -17,13 +19,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  AppBar,
-  Toolbar,
-  Box,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import InventoryIcon from '@mui/icons-material/Inventory';
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function Warehouses() {
   const [warehouses, setWarehouses] = useState([]);
@@ -34,10 +33,14 @@ export default function Warehouses() {
     fetchWarehouses();
   }, []);
 
-  const fetchWarehouses = () => {
-    fetch('/api/warehouses')
-      .then((res) => res.json())
-      .then((data) => setWarehouses(data));
+  const fetchWarehouses = async () => {
+    try {
+      const res = await fetch("/api/warehouses");
+      const data = await res.json();
+      setWarehouses(data);
+    } catch (error) {
+      console.error("Error fetching warehouses:", error);
+    }
   };
 
   const handleClickOpen = (id) => {
@@ -53,78 +56,100 @@ export default function Warehouses() {
   const handleDelete = async () => {
     try {
       const res = await fetch(`/api/warehouses/${selectedWarehouseId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
-        setWarehouses(warehouses.filter((warehouse) => warehouse.id !== selectedWarehouseId));
+        setWarehouses((prev) =>
+          prev.filter((w) => w.id !== selectedWarehouseId)
+        );
         handleClose();
       }
     } catch (error) {
-      console.error('Error deleting warehouse:', error);
+      console.error("Error deleting warehouse:", error);
     }
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <InventoryIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Inventory Management System
-          </Typography>
-          <Button color="inherit" component={Link} href="/">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} href="/products">
-            Products
-          </Button>
-          <Button color="inherit" component={Link} href="/warehouses">
-            Warehouses
-          </Button>
-          <Button color="inherit" component={Link} href="/stock">
-            Stock Levels
-          </Button>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ p: 3 }}>
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Typography variant="h5" sx={{ fontWeight: 500, color: "#fff" }}>
+          Warehouses
+        </Typography>
 
-      <Container sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" component="h1">
-            Warehouses
-          </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            component={Link} 
-            href="/warehouses/add"
-          >
-            Add Warehouse
-          </Button>
-        </Box>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          component={Link}
+          href="/warehouses/add"
+          sx={{
+            backgroundColor: "#2a2a2a",
+            color: "#fff",
+            ":hover": { backgroundColor: "#3a3a3a" },
+          }}
+        >
+          Add Warehouse
+        </Button>
+      </Box>
 
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell><strong>Code</strong></TableCell>
-                <TableCell><strong>Name</strong></TableCell>
-                <TableCell><strong>Location</strong></TableCell>
-                <TableCell><strong>Actions</strong></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {warehouses.map((warehouse) => (
-                <TableRow key={warehouse.id}>
-                  <TableCell>{warehouse.code}</TableCell>
-                  <TableCell>{warehouse.name}</TableCell>
-                  <TableCell>{warehouse.location}</TableCell>
+      {/* Table */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 2,
+          overflow: "hidden",
+          backgroundColor: "#1a1a1a",
+          border: "1px solid #2a2a2a",
+        }}
+      >
+        <Table>
+          <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
+            <TableRow>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Code
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Location
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {warehouses.length > 0 ? (
+              warehouses.map((warehouse) => (
+                <TableRow
+                  key={warehouse.id}
+                  hover
+                  sx={{
+                    "&:hover": { backgroundColor: "#2a2a2a" },
+                    backgroundColor: "#1a1a1a",
+                  }}
+                >
+                  <TableCell sx={{ color: "#ccc" }}>{warehouse.code}</TableCell>
+                  <TableCell sx={{ color: "#ccc" }}>{warehouse.name}</TableCell>
+                  <TableCell sx={{ color: "#ccc" }}>
+                    {warehouse.location}
+                  </TableCell>
                   <TableCell>
                     <IconButton
                       color="primary"
                       component={Link}
                       href={`/warehouses/edit/${warehouse.id}`}
                       size="small"
+                      sx={{ color: "#4fc3f7" }}
                     >
                       <EditIcon />
                     </IconButton>
@@ -132,41 +157,52 @@ export default function Warehouses() {
                       color="error"
                       onClick={() => handleClickOpen(warehouse.id)}
                       size="small"
+                      sx={{ color: "#f44336" }}
                     >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))}
-              {warehouses.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={4} align="center">
-                    No warehouses available.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  align="center"
+                  sx={{ py: 3, color: "#ccc" }}
+                >
+                  No warehouses found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Delete Warehouse</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete this warehouse? This action cannot be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDelete} color="error" autoFocus>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Container>
-    </>
+      {/* Delete Dialog */}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          sx: { backgroundColor: "#1a1a1a", border: "1px solid #2a2a2a" },
+        }}
+      >
+        <DialogTitle sx={{ color: "#fff" }}>Delete Warehouse</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: "#ccc" }}>
+            Are you sure you want to delete this warehouse? This action cannot
+            be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} sx={{ color: "#ccc" }}>
+            Cancel
+          </Button>
+          <Button onClick={handleDelete} sx={{ color: "#f44336" }} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
-

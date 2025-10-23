@@ -2,16 +2,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
-  Container,
   Typography,
   TextField,
   Button,
   Box,
   Paper,
-  AppBar,
-  Toolbar,
 } from '@mui/material';
-import InventoryIcon from '@mui/icons-material/Inventory';
 
 export default function AddProduct() {
   const [product, setProduct] = useState({
@@ -45,31 +41,17 @@ export default function AddProduct() {
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <InventoryIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Inventory Management System
-          </Typography>
-          <Button color="inherit" component={Link} href="/">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} href="/products">
-            Products
-          </Button>
-          <Button color="inherit" component={Link} href="/warehouses">
-            Warehouses
-          </Button>
-          <Button color="inherit" component={Link} href="/stock">
-            Stock Levels
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
+    <Box sx={{ maxWidth: "sm", mx: "auto" }}>
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: 4,
+            backgroundColor: "#1a1a1a",
+            border: "1px solid #2a2a2a",
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h4" component="h1" gutterBottom sx={{ color: "#fff", mb: 3 }}>
             Add New Product
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
@@ -81,6 +63,26 @@ export default function AddProduct() {
               name="sku"
               value={product.sku}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: '#fff',
+                  '& fieldset': {
+                    borderColor: '#2a2a2a',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#ccc',
+                  '&.Mui-focused': {
+                    color: '#4fc3f7',
+                  },
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -90,6 +92,26 @@ export default function AddProduct() {
               name="name"
               value={product.name}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: '#fff',
+                  '& fieldset': {
+                    borderColor: '#2a2a2a',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#ccc',
+                  '&.Mui-focused': {
+                    color: '#4fc3f7',
+                  },
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -99,6 +121,26 @@ export default function AddProduct() {
               name="category"
               value={product.category}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: '#fff',
+                  '& fieldset': {
+                    borderColor: '#2a2a2a',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#ccc',
+                  '&.Mui-focused': {
+                    color: '#4fc3f7',
+                  },
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -110,6 +152,26 @@ export default function AddProduct() {
               inputProps={{ step: '0.01', min: '0' }}
               value={product.unitCost}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: '#fff',
+                  '& fieldset': {
+                    borderColor: '#2a2a2a',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#ccc',
+                  '&.Mui-focused': {
+                    color: '#4fc3f7',
+                  },
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -121,13 +183,37 @@ export default function AddProduct() {
               inputProps={{ min: '0' }}
               value={product.reorderPoint}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: '#fff',
+                  '& fieldset': {
+                    borderColor: '#2a2a2a',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4fc3f7',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#ccc',
+                  '&.Mui-focused': {
+                    color: '#4fc3f7',
+                  },
+                },
+              }}
             />
             <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
+                sx={{
+                  backgroundColor: "#2a2a2a",
+                  color: "#fff",
+                  ":hover": { backgroundColor: "#3a3a3a" },
+                }}
               >
                 Add Product
               </Button>
@@ -136,14 +222,21 @@ export default function AddProduct() {
                 variant="outlined"
                 component={Link}
                 href="/products"
+                sx={{
+                  borderColor: "#2a2a2a",
+                  color: "#ccc",
+                  ":hover": { 
+                    borderColor: "#4fc3f7",
+                    color: "#4fc3f7",
+                  },
+                }}
               >
                 Cancel
               </Button>
             </Box>
           </Box>
         </Paper>
-      </Container>
-    </>
+    </Box>
   );
 }
 

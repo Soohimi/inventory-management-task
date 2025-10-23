@@ -26,17 +26,23 @@ export default function LowStockList({ products, stock }) {
     })
     .filter((i) => i.status !== "ok");
 
-  if (lowStockItems.length === 0) return null;
+  if (!lowStockItems.length) return null;
 
   return (
-    <Card sx={{ mt: 4 }}>
+    <Card
+      sx={{ mt: 4, backgroundColor: "#1e1e1e", color: "#fff", borderRadius: 2 }}
+    >
       <CardContent>
         <Typography variant="h6" gutterBottom>
           ⚠️ Low Stock Items
         </Typography>
         <List>
           {lowStockItems.map((item) => (
-            <ListItem key={item.id} divider>
+            <ListItem
+              key={item.id}
+              divider
+              sx={{ "&:hover": { backgroundColor: "#333" } }}
+            >
               <Typography sx={{ flexGrow: 1 }}>{item.name}</Typography>
               <Chip
                 label={item.status}

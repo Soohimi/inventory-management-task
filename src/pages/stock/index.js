@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Container,
   Typography,
@@ -17,13 +17,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  AppBar,
-  Toolbar,
   Box,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import InventoryIcon from '@mui/icons-material/Inventory';
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Stock() {
   const [stock, setStock] = useState([]);
@@ -38,9 +35,9 @@ export default function Stock() {
 
   const fetchData = () => {
     Promise.all([
-      fetch('/api/stock').then(res => res.json()),
-      fetch('/api/products').then(res => res.json()),
-      fetch('/api/warehouses').then(res => res.json()),
+      fetch("/api/stock").then((res) => res.json()),
+      fetch("/api/products").then((res) => res.json()),
+      fetch("/api/warehouses").then((res) => res.json()),
     ]).then(([stockData, productsData, warehousesData]) => {
       setStock(stockData);
       setProducts(productsData);
@@ -49,13 +46,13 @@ export default function Stock() {
   };
 
   const getProductName = (productId) => {
-    const product = products.find(p => p.id === productId);
-    return product ? `${product.name} (${product.sku})` : 'Unknown';
+    const product = products.find((p) => p.id === productId);
+    return product ? `${product.name} (${product.sku})` : "Unknown";
   };
 
   const getWarehouseName = (warehouseId) => {
-    const warehouse = warehouses.find(w => w.id === warehouseId);
-    return warehouse ? `${warehouse.name} (${warehouse.code})` : 'Unknown';
+    const warehouse = warehouses.find((w) => w.id === warehouseId);
+    return warehouse ? `${warehouse.name} (${warehouse.code})` : "Unknown";
   };
 
   const handleClickOpen = (id) => {
@@ -71,7 +68,7 @@ export default function Stock() {
   const handleDelete = async () => {
     try {
       const res = await fetch(`/api/stock/${selectedStockId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
@@ -79,70 +76,84 @@ export default function Stock() {
         handleClose();
       }
     } catch (error) {
-      console.error('Error deleting stock:', error);
+      console.error("Error deleting stock:", error);
     }
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <InventoryIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Inventory Management System
-          </Typography>
-          <Button color="inherit" component={Link} href="/">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} href="/products">
-            Products
-          </Button>
-          <Button color="inherit" component={Link} href="/warehouses">
-            Warehouses
-          </Button>
-          <Button color="inherit" component={Link} href="/stock">
-            Stock Levels
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Container sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" component="h1">
+    <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 500, color: "#fff" }}>
             Stock Levels
           </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            component={Link} 
+          <Button
+            variant="contained"
+            component={Link}
             href="/stock/add"
+            sx={{
+              backgroundColor: "#2a2a2a",
+              color: "#fff",
+              ":hover": { backgroundColor: "#3a3a3a" },
+            }}
           >
             Add Stock Record
           </Button>
         </Box>
 
-        <TableContainer component={Paper}>
+        <TableContainer 
+          component={Paper}
+          sx={{
+            borderRadius: 2,
+            backgroundColor: "#1a1a1a",
+            border: "1px solid #2a2a2a",
+          }}
+        >
           <Table>
-            <TableHead>
+            <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
               <TableRow>
-                <TableCell><strong>Product</strong></TableCell>
-                <TableCell><strong>Warehouse</strong></TableCell>
-                <TableCell align="right"><strong>Quantity</strong></TableCell>
-                <TableCell><strong>Actions</strong></TableCell>
+                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                  Product
+                </TableCell>
+                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                  Warehouse
+                </TableCell>
+                <TableCell align="right" sx={{ color: "#fff", fontWeight: 600 }}>
+                  Quantity
+                </TableCell>
+                <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {stock.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{getProductName(item.productId)}</TableCell>
-                  <TableCell>{getWarehouseName(item.warehouseId)}</TableCell>
-                  <TableCell align="right">{item.quantity}</TableCell>
+                <TableRow 
+                  key={item.id}
+                  hover
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#2a2a2a",
+                    },
+                    backgroundColor: "#1a1a1a",
+                  }}
+                >
+                  <TableCell sx={{ color: "#ccc" }}>{getProductName(item.productId)}</TableCell>
+                  <TableCell sx={{ color: "#ccc" }}>{getWarehouseName(item.warehouseId)}</TableCell>
+                  <TableCell align="right" sx={{ color: "#ccc" }}>{item.quantity}</TableCell>
                   <TableCell>
                     <IconButton
                       color="primary"
                       component={Link}
                       href={`/stock/edit/${item.id}`}
                       size="small"
+                      sx={{ color: "#4fc3f7" }}
                     >
                       <EditIcon />
                     </IconButton>
@@ -150,6 +161,7 @@ export default function Stock() {
                       color="error"
                       onClick={() => handleClickOpen(item.id)}
                       size="small"
+                      sx={{ color: "#f44336" }}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -158,7 +170,7 @@ export default function Stock() {
               ))}
               {stock.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
+                  <TableCell colSpan={4} align="center" sx={{ py: 3, color: "#ccc" }}>
                     No stock records available.
                   </TableCell>
                 </TableRow>
@@ -167,24 +179,32 @@ export default function Stock() {
           </Table>
         </TableContainer>
 
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Delete Stock Record</DialogTitle>
+        <Dialog 
+          open={open} 
+          onClose={handleClose}
+          PaperProps={{
+            sx: {
+              backgroundColor: "#1a1a1a",
+              border: "1px solid #2a2a2a",
+            }
+          }}
+        >
+          <DialogTitle sx={{ color: "#fff" }}>Delete Stock Record</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete this stock record? This action cannot be undone.
+            <DialogContentText sx={{ color: "#ccc" }}>
+              Are you sure you want to delete this stock record? This action
+              cannot be undone.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} sx={{ color: "#ccc" }}>
               Cancel
             </Button>
-            <Button onClick={handleDelete} color="error" autoFocus>
+            <Button onClick={handleDelete} sx={{ color: "#f44336" }} autoFocus>
               Delete
             </Button>
           </DialogActions>
         </Dialog>
-      </Container>
-    </>
+    </Box>
   );
 }
-

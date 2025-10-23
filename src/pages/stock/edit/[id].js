@@ -2,18 +2,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
-  Container,
   Typography,
   TextField,
   Button,
   Box,
   Paper,
-  AppBar,
-  Toolbar,
   MenuItem,
   CircularProgress,
 } from '@mui/material';
-import InventoryIcon from '@mui/icons-material/Inventory';
 
 export default function EditStock() {
   const [stock, setStock] = useState({
@@ -72,31 +68,17 @@ export default function EditStock() {
   }
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <InventoryIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Inventory Management System
-          </Typography>
-          <Button color="inherit" component={Link} href="/">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} href="/products">
-            Products
-          </Button>
-          <Button color="inherit" component={Link} href="/warehouses">
-            Warehouses
-          </Button>
-          <Button color="inherit" component={Link} href="/stock">
-            Stock Levels
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
+    <Box sx={{ maxWidth: "sm", mx: "auto" }}>
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: 4,
+            backgroundColor: "#1a1a1a",
+            border: "1px solid #2a2a2a",
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h4" component="h1" gutterBottom sx={{ color: "#fff", mb: 3 }}>
             Edit Stock Record
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
@@ -163,8 +145,7 @@ export default function EditStock() {
             </Box>
           </Box>
         </Paper>
-      </Container>
-    </>
+    </Box>
   );
 }
 

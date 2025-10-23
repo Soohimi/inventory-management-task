@@ -37,61 +37,97 @@ export default function DashboardTable({ products, stock }) {
     page * rowsPerPage + rowsPerPage
   );
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
 
   return (
-    <>
+    <div className="mt-8">
       <TextField
         label="Search Products..."
         variant="outlined"
         fullWidth
-        sx={{ mt: 2 }}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        InputLabelProps={{ style: { color: "#ccc" } }}
+        InputProps={{
+          style: {
+            color: "white",
+            borderColor: "#555",
+            background: "#1e1e1e",
+          },
+        }}
       />
 
-      <TableContainer component={Paper} sx={{ mt: 2, overflowX: "auto", p: 2 }}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          mt: 3,
+          background: "#1e1e1e",
+          color: "white",
+          borderRadius: "12px",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+        }}
+      >
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell>SKU</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell align="right">Total Quantity</TableCell>
+            <TableRow sx={{ background: "#2a2a2a" }}>
+              <TableCell sx={{ color: "#ddd" }}>Product Name</TableCell>
+              <TableCell sx={{ color: "#ddd" }}>SKU</TableCell>
+              <TableCell sx={{ color: "#ddd" }}>Category</TableCell>
+              <TableCell sx={{ color: "#ddd" }} align="right">
+                Total Quantity
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {displayedRows.map((p) => (
-              <TableRow key={p.id} hover>
-                <TableCell>
+              <TableRow
+                key={p.id}
+                hover
+                sx={{
+                  "&:hover": { backgroundColor: "#333" },
+                  transition: "0.3s ease",
+                }}
+              >
+                <TableCell sx={{ color: "#fff" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
                     autoEscape={true}
                     textToHighlight={p.name}
+                    highlightStyle={{
+                      backgroundColor: "#4a90e2",
+                      color: "#fff",
+                    }}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ color: "#bbb" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
                     autoEscape={true}
                     textToHighlight={p.sku}
+                    highlightStyle={{
+                      backgroundColor: "#4a90e2",
+                      color: "#fff",
+                    }}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ color: "#bbb" }}>
                   <Highlighter
                     searchWords={[searchTerm]}
                     autoEscape={true}
                     textToHighlight={p.category}
+                    highlightStyle={{
+                      backgroundColor: "#4a90e2",
+                      color: "#fff",
+                    }}
                   />
                 </TableCell>
-                <TableCell align="right">{p.totalQty}</TableCell>
+                <TableCell sx={{ color: "#fff" }} align="right">
+                  {p.totalQty}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -106,7 +142,12 @@ export default function DashboardTable({ products, stock }) {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
+        sx={{
+          color: "white",
+          ".MuiTablePagination-actions button": { color: "white" },
+          ".MuiTablePagination-select": { color: "white" },
+        }}
       />
-    </>
+    </div>
   );
 }

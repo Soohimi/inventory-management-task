@@ -18,7 +18,9 @@ export default function WarehouseBarChart({ warehouses, stock }) {
   });
 
   return (
-    <Card sx={{ mt: 4 }}>
+    <Card
+      sx={{ mt: 4, backgroundColor: "#1e1e1e", color: "#fff", borderRadius: 2 }}
+    >
       <CardContent>
         <Typography variant="h6" gutterBottom>
           🏭 Inventory per Warehouse
@@ -26,24 +28,24 @@ export default function WarehouseBarChart({ warehouses, stock }) {
         <div style={{ width: "100%", height: 300 }}>
           <ResponsiveContainer>
             <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis dataKey="name" stroke="#fff" />
+              <YAxis stroke="#fff" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #ccc",
+                  backgroundColor: "#1e1e1e",
+                  border: "1px solid #444",
                   borderRadius: "8px",
                   padding: "10px",
-                  boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+                  color: "#fff",
                 }}
-                labelStyle={{ fontWeight: "bold", color: "#333" }}
+                labelStyle={{ fontWeight: "bold", color: "#fff" }}
                 formatter={(value, name, props) => {
                   const { payload } = props;
                   return [`${value} items`, `Warehouse: ${payload.name}`];
                 }}
               />
-              <Bar dataKey="totalQty" fill="#4CAF50" />
+              <Bar dataKey="totalQty" fill="#444" />
             </BarChart>
           </ResponsiveContainer>
         </div>

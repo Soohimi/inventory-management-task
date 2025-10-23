@@ -1,4 +1,4 @@
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import AssessmentIcon from "@mui/icons-material/Assessment";
@@ -19,26 +19,35 @@ export default function DashboardOverview({ products, warehouses, stock }) {
     {
       title: "Products",
       value: products.length,
-      icon: <InventoryIcon fontSize="large" color="primary" />,
+      icon: <InventoryIcon sx={{ fontSize: 40, color: "#fff" }} />,
     },
     {
       title: "Warehouses",
       value: warehouses.length,
-      icon: <WarehouseIcon fontSize="large" color="info" />,
+      icon: <WarehouseIcon sx={{ fontSize: 40, color: "#fff" }} />,
     },
     {
       title: "Total Stock",
       value: totalStock,
-      icon: <AssessmentIcon fontSize="large" color={stockColor} />,
+      icon: <AssessmentIcon sx={{ fontSize: 40, color: "#fff" }} />,
     },
   ];
 
   return (
     <Grid container spacing={3}>
-      {cards.map((card, index) => (
-        <Grid item xs={12} md={4} key={index}>
-          <Card sx={{ p: 2, textAlign: "center" }}>
-            {card.icon}
+      {cards.map((card, idx) => (
+        <Grid item xs={12} md={4} key={idx}>
+          <Card
+            sx={{
+              p: 2,
+              textAlign: "center",
+              backgroundColor: "#1e1e1e",
+              color: "#fff",
+              borderRadius: 2,
+              "&:hover": { boxShadow: 6 },
+            }}
+          >
+            <Box mb={1}>{card.icon}</Box>
             <CardContent>
               <Typography variant="h6">{card.title}</Typography>
               <Typography variant="h4">{card.value}</Typography>

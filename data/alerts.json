@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1761232332795.7305,
+    "productId": 2,
+    "productName": "Compostable Food Container 32oz",
+    "status": "low",
+    "message": "Low stock: 10 units remaining",
+    "date": "2025-10-23T15:12:12.795Z",
+    "resolved": true
+  },
+  {
+    "id": 1761232726349.5044,
+    "productId": 3,
+    "productName": "Wooden Chopsticks",
+    "status": "critical",
+    "message": "Critical: Only 1 units left",
+    "date": "2025-10-23T15:18:46.349Z",
+    "resolved": true
+  },
+  {
+    "id": 1761232735888.2334,
+    "productId": 3,
+    "productName": "Wooden Chopsticks",
+    "status": "low",
+    "message": "Low stock: 10 units remaining",
+    "date": "2025-10-23T15:18:55.888Z",
+    "resolved": true
+  },
+  {
+    "id": 1761234902783.9038,
+    "type": "warehouse",
+    "productId": 4,
+    "productName": "Recyclable Paper Bowl",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Recyclable Paper Bowl in warehouse 2 is low (600 units left).",
+    "date": "2025-10-23T15:55:02.783Z",
+    "resolved": true
+  },
+  {
+    "id": 1761234902783.8838,
+    "type": "warehouse",
+    "productId": 5,
+    "productName": "Biodegradable Coffee Cup 12oz",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Biodegradable Coffee Cup 12oz in warehouse 2 is low (450 units left).",
+    "date": "2025-10-23T15:55:02.783Z",
+    "resolved": true
+  },
+  {
+    "id": 1761235897810.5466,
+    "type": "warehouse",
+    "productId": 4,
+    "productName": "Recyclable Paper Bowl",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Recyclable Paper Bowl in warehouse 2 is low (600 units left).",
+    "date": "2025-10-23T16:11:37.810Z",
+    "resolved": true
+  },
+  {
+    "id": 1761235897810.298,
+    "type": "warehouse",
+    "productId": 5,
+    "productName": "Biodegradable Coffee Cup 12oz",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Biodegradable Coffee Cup 12oz in warehouse 2 is low (450 units left).",
+    "date": "2025-10-23T16:11:37.810Z",
+    "resolved": true
+  },
+  {
+    "id": 1761236159055.3699,
+    "type": "total",
+    "productId": 1,
+    "productName": "Bamboo Spork Set",
+    "status": "low",
+    "message": "Total stock for Bamboo Spork Set is low (51 units left).",
+    "date": "2025-10-23T16:15:59.055Z",
+    "resolved": false
+  },
+  {
+    "id": 1761236159055.7717,
+    "type": "warehouse",
+    "productId": 1,
+    "productName": "Bamboo Spork Set",
+    "warehouseId": 1,
+    "status": "low",
+    "message": "Stock for Bamboo Spork Set in warehouse 1 is low (1 units left).",
+    "date": "2025-10-23T16:15:59.055Z",
+    "resolved": false
+  },
+  {
+    "id": 1761236159055.3303,
+    "type": "warehouse",
+    "productId": 1,
+    "productName": "Bamboo Spork Set",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Bamboo Spork Set in warehouse 2 is low (50 units left).",
+    "date": "2025-10-23T16:15:59.055Z",
+    "resolved": false
+  },
+  {
+    "id": 1761236159055.6934,
+    "type": "warehouse",
+    "productId": 4,
+    "productName": "Recyclable Paper Bowl",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Recyclable Paper Bowl in warehouse 2 is low (600 units left).",
+    "date": "2025-10-23T16:15:59.055Z",
+    "resolved": false
+  },
+  {
+    "id": 1761236159055.3657,
+    "type": "warehouse",
+    "productId": 5,
+    "productName": "Biodegradable Coffee Cup 12oz",
+    "warehouseId": 2,
+    "status": "low",
+    "message": "Stock for Biodegradable Coffee Cup 12oz in warehouse 2 is low (450 units left).",
+    "date": "2025-10-23T16:15:59.055Z",
+    "resolved": false
+  }
+]
