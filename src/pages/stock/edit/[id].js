@@ -74,7 +74,6 @@ export default function EditStock() {
     );
   }
 
-  // استایل برای پس‌زمینه منوی آبشاری (Paper)
   const menuProps = {
     PaperProps: {
       sx: {
@@ -83,20 +82,17 @@ export default function EditStock() {
     },
   };
 
-  // استایل برای آیتم‌های داخل منو (MenuItem)
   const menuItemStyles = {
     color: "#fff",
     backgroundColor: "#1a1a1a",
-    // استایل برای حالت انتخاب شده
     "&.Mui-selected": {
       backgroundColor: "#1a1a1a !important",
       "&:hover": {
-        backgroundColor: "#2a2a2a !important", // هاور در حالت انتخاب شده
+        backgroundColor: "#2a2a2a !important",
       },
     },
-    // استایل برای حالت هاور (اصلاح اصلی)
     "&:hover": {
-      backgroundColor: "#2a2a2a !important", // رنگ کمی روشن‌تر برای هاور
+      backgroundColor: "#2a2a2a !important",
     },
   };
 

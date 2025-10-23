@@ -64,7 +64,13 @@ export default function Dashboard() {
     );
 
   return (
-    <Box sx={{ p: 2, backgroundColor: "#0f0f0f", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        p: { xs: 1, sm: 2 },
+        backgroundColor: "#0f0f0f",
+        minHeight: "100vh",
+      }}
+    >
       <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: "#fff" }}>
         GreenSupply Dashboard
       </Typography>
@@ -91,11 +97,12 @@ export default function Dashboard() {
           display: "flex",
           gap: 2,
           mb: 3,
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         <Paper
           sx={{
-            flex: 2,
+            flex: { xs: 1, md: 2 },
             p: 2,
             borderRadius: 2,
             backgroundColor: "#1a1a1a",
@@ -118,7 +125,7 @@ export default function Dashboard() {
             border: "1px solid #2a2a2a",
             display: "flex",
             flexDirection: "column",
-            height: "460px",
+            height: { xs: "auto", md: "460px" },
           }}
           elevation={0}
         >

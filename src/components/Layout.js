@@ -49,7 +49,7 @@ export default function Layout({ children }) {
   const drawer = (
     <Box sx={{ height: "100%" }}>
       <Toolbar />
-      <Divider />
+      <Divider sx={{ borderColor: "#2a2a2a" }} />
       <List>
         {navItems.map((item) => (
           <ListItem key={item.path} disablePadding>
@@ -63,8 +63,11 @@ export default function Layout({ children }) {
                 mx: 1,
                 my: 0.5,
                 "&.Mui-selected": {
-                  backgroundColor: "#2a2a2a",
-                  color: "#fff",
+                  backgroundColor: "#4fc3f7",
+                  color: "#000",
+                  "&:hover": {
+                    backgroundColor: "#36b0e0",
+                  },
                 },
                 "&:hover": {
                   backgroundColor: "#2a2a2a",
@@ -90,9 +93,15 @@ export default function Layout({ children }) {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        backgroundColor: "#0f0f0f",
+        color: "#fff",
+      }}
+    >
       <CssBaseline />
-
       <AppBar
         position="fixed"
         sx={{
@@ -107,7 +116,7 @@ export default function Layout({ children }) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: "none" } }}
+            sx={{ mr: 2, display: { md: "none" }, color: "#fff" }}
           >
             <MenuIcon />
           </IconButton>
