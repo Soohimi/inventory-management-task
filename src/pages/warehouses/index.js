@@ -23,6 +23,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 export default function Warehouses() {
   const [warehouses, setWarehouses] = useState([]);
@@ -70,9 +71,46 @@ export default function Warehouses() {
     }
   };
 
+  const handleExportCsv = () => {
+    const warehouseDataForExport = warehouses.map((w) => ({
+      Code: w.code,
+      Name: w.name,
+      Location: w.location,
+    }));
+
+    if (warehouseDataForExport.length === 0) {
+      alert("No data to export.");
+      return;
+    }
+
+    const headers = Object.keys(warehouseDataForExport[0]);
+    const csvContent = [
+      headers.join(","),
+      ...warehouseDataForExport.map((row) =>
+        headers
+          .map((header) => {
+            let value = row[header];
+            if (typeof value === "string" && value.includes(",")) {
+              return `"${value}"`;
+            }
+            return value;
+          })
+          .join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "warehouses.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Box sx={{ p: 3 }}>
-      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -85,22 +123,41 @@ export default function Warehouses() {
           Warehouses
         </Typography>
 
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          component={Link}
-          href="/warehouses/add"
-          sx={{
-            backgroundColor: "#2a2a2a",
-            color: "#fff",
-            ":hover": { backgroundColor: "#3a3a3a" },
-          }}
-        >
-          Add Warehouse
-        </Button>
+        {/* 💡 Container for buttons */}
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<GetAppIcon />}
+            onClick={handleExportCsv}
+            sx={{
+              color: "#4fc3f7",
+              borderColor: "#4fc3f7",
+              ":hover": {
+                borderColor: "#4fc3f7",
+                backgroundColor: "rgba(79, 195, 247, 0.08)",
+              },
+            }}
+          >
+            Export CSV
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            component={Link}
+            href="/warehouses/add"
+            sx={{
+              backgroundColor: "#2a2a2a",
+              color: "#fff",
+              ":hover": { backgroundColor: "#3a3a3a" },
+            }}
+          >
+            Add Warehouse
+          </Button>
+        </Box>
+        {/* 💡 END Container for buttons */}
       </Box>
 
-      {/* Table */}
+      {/* Table - remains the same */}
       <TableContainer
         component={Paper}
         sx={{
@@ -179,7 +236,6 @@ export default function Warehouses() {
         </Table>
       </TableContainer>
 
-      {/* Delete Dialog */}
       <Dialog
         open={open}
         onClose={handleClose}
