@@ -135,7 +135,9 @@ export default function Stock() {
 
   const formControlStyle = {
     minWidth: 200,
-    mr: 2,
+    mr: { xs: 0, sm: 2 },
+    mb: { xs: 2, sm: 0 },
+    width: { xs: "100%", sm: "auto" },
     ".MuiInputBase-root": {
       color: "#fff",
       "& fieldset": { borderColor: "#444" },
@@ -149,16 +151,20 @@ export default function Stock() {
       <Box
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: { xs: "flex-start", sm: "center" },
           mb: 3,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 500, color: "#fff" }}>
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 500, color: "#fff", mb: { xs: 2, sm: 0 } }}
+        >
           Stock Levels
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
           <Button
             variant="outlined"
             startIcon={<GetAppIcon />}
@@ -189,9 +195,13 @@ export default function Stock() {
         </Box>
       </Box>
 
-      {/* 💡 NEW: Filtering Controls */}
-      <Box sx={{ display: "flex", mb: 3 }}>
-        {/* Product Filter */}
+      <Box
+        sx={{
+          display: "flex",
+          mb: 3,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
         <FormControl variant="outlined" sx={formControlStyle}>
           <InputLabel id="product-filter-label">Filter by Product</InputLabel>
           <Select
@@ -212,7 +222,6 @@ export default function Stock() {
           </Select>
         </FormControl>
 
-        {/* Warehouse Filter */}
         <FormControl variant="outlined" sx={formControlStyle}>
           <InputLabel id="warehouse-filter-label">
             Filter by Warehouse
@@ -235,8 +244,6 @@ export default function Stock() {
           </Select>
         </FormControl>
       </Box>
-      {/* 💡 END: Filtering Controls */}
-
       <TableContainer
         component={Paper}
         sx={{
@@ -245,7 +252,7 @@ export default function Stock() {
           border: "1px solid #2a2a2a",
         }}
       >
-        <Table>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
             <TableRow>
               <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
@@ -263,7 +270,6 @@ export default function Stock() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* 💡 Use filteredStock here */}
             {filteredStock.map((item) => (
               <TableRow
                 key={item.id}
@@ -305,7 +311,6 @@ export default function Stock() {
                 </TableCell>
               </TableRow>
             ))}
-            {/* 💡 Check filteredStock length */}
             {filteredStock.length === 0 && (
               <TableRow>
                 <TableCell

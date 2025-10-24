@@ -92,25 +92,25 @@
     "resolved": true
   },
   {
-    "id": 1761320733294.2007,
+    "id": 1761324257412.8083,
     "type": "warehouse",
     "productId": 4,
     "productName": "Recyclable Paper Bowl",
     "warehouseId": 2,
     "status": "low",
     "message": "Stock for Recyclable Paper Bowl in warehouse 2 is low (600 units left).",
-    "date": "2025-10-24T15:45:33.294Z",
+    "date": "2025-10-24T16:44:17.412Z",
     "resolved": false
   },
   {
-    "id": 1761320733294.8867,
+    "id": 1761324257412.6833,
     "type": "warehouse",
     "productId": 5,
     "productName": "Biodegradable Coffee Cup 12oz",
     "warehouseId": 2,
     "status": "low",
     "message": "Stock for Biodegradable Coffee Cup 12oz in warehouse 2 is low (450 units left).",
-    "date": "2025-10-24T15:45:33.294Z",
+    "date": "2025-10-24T16:44:17.412Z",
     "resolved": false
   }
 ]

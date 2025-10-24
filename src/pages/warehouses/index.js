@@ -114,21 +114,24 @@ export default function Warehouses() {
       <Box
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: { xs: "flex-start", sm: "center" },
           mb: 3,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 500, color: "#fff" }}>
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 500, color: "#fff", mb: { xs: 2, sm: 0 } }}
+        >
           Warehouses
         </Typography>
 
-        {/* 💡 Container for buttons */}
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
           <Button
             variant="outlined"
-            startIcon={<GetAppIcon />}
             onClick={handleExportCsv}
+            startIcon={<GetAppIcon />}
             sx={{
               color: "#4fc3f7",
               borderColor: "#4fc3f7",
@@ -154,20 +157,18 @@ export default function Warehouses() {
             Add Warehouse
           </Button>
         </Box>
-        {/* 💡 END Container for buttons */}
       </Box>
 
-      {/* Table - remains the same */}
       <TableContainer
         component={Paper}
         sx={{
           borderRadius: 2,
-          overflow: "hidden",
+          overflowX: "auto",
           backgroundColor: "#1a1a1a",
           border: "1px solid #2a2a2a",
         }}
       >
-        <Table>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead sx={{ backgroundColor: "#2a2a2a" }}>
             <TableRow>
               <TableCell sx={{ color: "#fff", fontWeight: 600 }}>
