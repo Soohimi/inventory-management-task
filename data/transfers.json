@@ -22,5 +22,21 @@
     "toWarehouseId": 2,
     "quantity": 600,
     "date": "2025-10-23T15:20:57.001Z"
+  },
+  {
+    "id": 4,
+    "productId": 1,
+    "fromWarehouseId": 1,
+    "toWarehouseId": 3,
+    "quantity": 20,
+    "date": "2025-10-24T17:15:56.086Z"
+  },
+  {
+    "id": 5,
+    "productId": 1,
+    "fromWarehouseId": 3,
+    "toWarehouseId": 2,
+    "quantity": 20,
+    "date": "2025-10-24T17:24:30.771Z"
   }
 ]
